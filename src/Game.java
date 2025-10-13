@@ -1,13 +1,29 @@
 public class Game {
 
-    public boolean gameStart(boolean startGame) {
-        return startGame;
-    }
-
     public static void main(String[] args) {
-       Round r = new Round();
+        User player = new User("Hero", 100, 20, 10, 8);
+        int wave = 1;
 
-       r.start();
-       
+        while (player.getHealth() > 0 && OpponentPool.hasMore()) {
+            System.out.println("\n=== Wave " + wave + " (remaining: " + OpponentPool.remaining() + ") ===");
+
+            Entity enemy = OpponentPool.random();
+            Round round = new Round();
+            Round.Result result = round.start(player, enemy);
+
+            if (result == Round.Result.PLAYER_DEAD) {
+                System.out.println("Game Over! You reached wave " + wave + ".");
+                break;
+            }
+
+            // (optional) small heal or rewards between waves
+            // player.heal(10);
+
+            wave++;
+        }
+
+        if (player.getHealth() > 0 && !OpponentPool.hasMore()) {
+            System.out.println("\nYou defeated all opponents! 🎉");
+        }
+    }
 }
-} 

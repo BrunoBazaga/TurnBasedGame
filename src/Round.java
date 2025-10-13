@@ -1,15 +1,11 @@
 public class Round {
 
-   public void start() {
-        // Create the player
-        User u = new User("Hero", 100, 20, 10, 8);
-        System.out.println("Your health is " + u.getHealth());
+    public enum Result { PLAYER_DEAD, ENEMY_DEAD }
 
-        // Pick a random opponent
-        Entity enemy = OpponentPool.random();
+    public Result start(User u, Entity enemy) {
+        System.out.println("Your health is " + u.getHealth());
         System.out.println("The opponent is " + enemy.getName());
 
-        // Create a basic attack handler
         BasicAttack attack = new BasicAttack();
 
         // Decide who goes first (by speed; if tie, user starts)
@@ -18,23 +14,24 @@ public class Round {
 
         System.out.println(attacker.getName() + " goes first!");
 
-        // Fight until someone’s health hits 0
         while (attacker.getHealth() > 0 && defender.getHealth() > 0) {
             attack.execute(attacker, defender);
 
-            // Check if the defender is defeated
             if (defender.getHealth() <= 0) {
                 System.out.println(defender.getName() + " has been defeated!");
                 System.out.println(attacker.getName() + " wins!");
-                break;
+                System.out.println("Battle over.");
+                return (defender == u) ? Result.PLAYER_DEAD : Result.ENEMY_DEAD;
             }
 
-            // Swap attacker and defender
-            Entity temp = attacker;
+            // swap
+            Entity tmp = attacker;
             attacker = defender;
-            defender = temp;
+            defender = tmp;
         }
 
+        // Fallback (shouldn’t happen)
         System.out.println("Battle over.");
+        return (u.getHealth() <= 0) ? Result.PLAYER_DEAD : Result.ENEMY_DEAD;
     }
 }
