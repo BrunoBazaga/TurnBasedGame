@@ -16,8 +16,7 @@ public class Game {
                 break;
             }
 
-            // (optional) small heal or rewards between waves
-            // player.heal(10);
+            player.setHealth(100);
 
             wave++;
         }
