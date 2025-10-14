@@ -1,37 +1,50 @@
 public class Round {
+    public enum Phase { PLAYER_TURN, WAITING_FOR_CLICK, ENDED }
 
-    public enum Result { PLAYER_DEAD, ENEMY_DEAD }
+    private final User player;
+    private final Entity enemy;
+    private final BasicAttack attack = new BasicAttack();
+    private Phase phase = Phase.PLAYER_TURN;
 
-    public Result start(User u, Entity enemy) {
-        System.out.println("Your health is " + u.getHealth());
-        System.out.println("The opponent is " + enemy.getName());
+    public Round(User player, Entity enemy) {
+        this.player = player;
+        this.enemy = enemy;
+    }
 
-        BasicAttack attack = new BasicAttack();
+    public boolean isOver() {
+        return phase == Phase.ENDED || player.getHealth() <= 0 || enemy.getHealth() <= 0;
+    }
 
-        // Decide who goes first (by speed; if tie, user starts)
-        Entity attacker = (u.getSpeed() >= enemy.getSpeed()) ? u : enemy;
-        Entity defender = (attacker == u) ? enemy : u;
+    public Phase getPhase() {
+        return phase;
+    }
 
-        System.out.println(attacker.getName() + " goes first!");
+    public void onPlayerClickAttack() {
+        if (isOver()) return;
+        if (phase != Phase.PLAYER_TURN) return; // ignore clicks if it's not the player's turn
 
-        while (attacker.getHealth() > 0 && defender.getHealth() > 0) {
-            attack.execute(attacker, defender);
-
-            if (defender.getHealth() <= 0) {
-                System.out.println(defender.getName() + " has been defeated!");
-                System.out.println(attacker.getName() + " wins!");
-                System.out.println("Battle over.");
-                return (defender == u) ? Result.PLAYER_DEAD : Result.ENEMY_DEAD;
-            }
-
-            // swap
-            Entity tmp = attacker;
-            attacker = defender;
-            defender = tmp;
+        attack.execute(player, enemy);
+        if (enemy.getHealth() <= 0) {
+            phase = Phase.ENDED;
+            return;
         }
 
-        // Fallback (shouldn’t happen)
-        System.out.println("Battle over.");
-        return (u.getHealth() <= 0) ? Result.PLAYER_DEAD : Result.ENEMY_DEAD;
+        phase = Phase.WAITING_FOR_CLICK;
+        enemyAutoAttack();
+        if (player.getHealth() <= 0) {
+            phase = Phase.ENDED;
+            return;
+        }
+
+        phase = Phase.PLAYER_TURN;
     }
+
+    private void enemyAutoAttack() {
+        attack.execute(enemy, player);
+    }
+
+    public int getPlayerHp() { return player.getHealth(); }
+    public int getEnemyHp()  { return enemy.getHealth(); }
+    public String getPlayerName() { return player.getName(); }
+    public String getEnemyName()  { return enemy.getName(); }
 }
