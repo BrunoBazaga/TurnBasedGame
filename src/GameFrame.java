@@ -1,11 +1,12 @@
-import javax.swing.*;
 import java.awt.*;
+import javax.swing.*;
 
 
 public class GameFrame extends JFrame {
     private StartMenuPanel startmenu;
     private CombatUI combatui;
     private SettingsMenuPanel settingsmenu;
+    private Round round;    
 
     public GameFrame() {
         setTitle("Game");
@@ -24,6 +25,14 @@ public class GameFrame extends JFrame {
         showMenu();
         setVisible(true);
 
+        User player = new User("Hero", 100,15,15,8);
+        Entity enemy = OpponentPool.random();
+
+        round = new Round(player, enemy);
+    }
+
+    public Round getRound(){
+        return round;
     }
 
     public void showMenu() {

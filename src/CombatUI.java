@@ -1,5 +1,5 @@
-import javax.swing.*;
 import java.awt.*;
+import javax.swing.*;
 
 public class CombatUI extends JPanel {
     private JLabel playerLabel, enemyLabel;
@@ -56,6 +56,19 @@ public class CombatUI extends JPanel {
 
         playerPanel.add(playerLabel, BorderLayout.WEST);
         playerPanel.add(playerInfo, BorderLayout.EAST);
+
+        JButton attackButton = new JButton("Attack");
+        attackButton.addActionListener(e -> {
+            frame.getRound().onPlayerClickAttack();
+        });
+
+        JPanel playerBottomPanel = new JPanel(new BorderLayout());
+        playerBottomPanel.setOpaque(false);
+        playerBottomPanel.add(playerInfo, BorderLayout.CENTER);
+        playerBottomPanel.add(attackButton, BorderLayout.SOUTH);
+
+        playerPanel.add(playerLabel, BorderLayout.WEST);
+        playerPanel.add(playerBottomPanel, BorderLayout.EAST);
 
         // Message box section
         messageBox = new JTextArea("A wild enemy appeared!");

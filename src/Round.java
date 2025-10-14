@@ -29,7 +29,7 @@ public class Round {
             phase = Phase.ENDED;
             return;
         }
-
+        System.out.println("Hello world");
         phase = Phase.WAITING_FOR_CLICK; //it becomes the enemies turn, same logic as above
         enemyAutoAttack(); 
         if (player.getHealth() <= 0) {
