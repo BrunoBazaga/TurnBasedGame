@@ -4,6 +4,7 @@ public class Round {
     private final User player; // declares player from user.java
     private final Entity enemy; // declares enemy from entity.java
     private final BasicAttack attack = new BasicAttack(); //initialises basic attack;
+    private final Heal heal = new Heal();
     private Phase phase = Phase.PLAYER_TURN; //sets initial phase of round to be the user's turn
 
     public Round(User player, Entity enemy) { // round constructor 
@@ -38,6 +39,27 @@ public class Round {
 
         phase = Phase.PLAYER_TURN; //it becomes the user's turn again
     }
+
+    public void onPlayerClickHeal(){
+        if (isOver()) return; //if the round is over, healing does not execute
+        if (phase != Phase.PLAYER_TURN) return;  //if it is not the player's turn, healing does not execute
+
+        heal.execute(player, enemy); //executes attack, ending the round if the enemies health reaches 0
+        if (enemy.getHealth() <= 0) {
+            return;
+        }
+
+        phase = Phase.WAITING_FOR_CLICK; //it becomes the enemies turn, same logic as above
+        enemyAutoAttack(); 
+        if (player.getHealth() <= 0) {
+            phase = Phase.ENDED;
+            return;
+        }
+
+        phase = Phase.PLAYER_TURN; //it becomes the user's turn again
+    
+    }
+
 
     private void enemyAutoAttack() { //attack executed by the enemy
         attack.execute(enemy, player);
