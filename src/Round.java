@@ -21,7 +21,7 @@ public class Round {
 
     public void onPlayerClickAttack() {
         if (isOver()) return;
-        if (phase != Phase.PLAYER_TURN) return; // ignore clicks if it's not the player's turn
+        if (phase != Phase.PLAYER_TURN) return; 
 
         attack.execute(player, enemy);
         if (enemy.getHealth() <= 0) {
