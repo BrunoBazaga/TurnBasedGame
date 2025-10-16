@@ -4,10 +4,12 @@ public class Entity {
     private int health;
     private int speed;
     private int defencePower;
+    private int maxHealth;
 
     public Entity(String name, int health, int attackPower, int defencePower, int speed) {
         this.name = name;
         this.health = health;
+        this.health = maxHealth;
         this.attackPower = attackPower;
         this.defencePower = defencePower;
         this.speed = speed;
@@ -15,6 +17,7 @@ public class Entity {
 
     public int getAttackPower() { return attackPower; }
     public int  getHealth() { return health; }
+    public int getMaxHealth() { return maxHealth; }
     public int getSpeed() { return speed; }
     public int getDefencePower() { return defencePower; }
     public String getName() { return name; }

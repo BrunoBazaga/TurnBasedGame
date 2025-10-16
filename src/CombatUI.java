@@ -3,11 +3,15 @@ import javax.swing.*;
 
 public class CombatUI extends JPanel {
     private JLabel playerLabel, enemyLabel;
-    private JProgressBar playerHPBar, enemyHPBar;
+    private HPBar playerHPBar, enemyHPBar;
     private JLabel playerNameLabel, enemyNameLabel;
     private JTextArea messageBox;
+    private Entity player, enemy;
 
     public CombatUI(GameFrame frame) {
+        this.player = player;
+        this.enemy = enemy;
+
         setLayout(new BorderLayout());
         setBackground(new Color(205, 190, 190));
 
@@ -19,6 +23,7 @@ public class CombatUI extends JPanel {
         enemyNameLabel = new JLabel("Opponent");
         enemyNameLabel.setFont(new Font("Arial", Font.BOLD, 16));
 
+        enemyHPBar = new HPBar(enemy.getHealth(), enemy.getMaxHealth());
         enemyHPBar = new JProgressBar(0, 100);
         enemyHPBar.setValue(100);
         enemyHPBar.setStringPainted(true);
@@ -110,19 +115,14 @@ public class CombatUI extends JPanel {
 
     
     public void setPlayerHP(int hp) {
-        playerHPBar.setValue(Math.max(hp, 0));
+        playerHPBar.setHealth(hp);
     }
 
     public void setEnemyHP(int hp) {
-        enemyHPBar.setValue(Math.max(hp, 0));
+        enemyHPBar.setHealth(hp);
     }
 
     public void setMessage(String text) {
         messageBox.setText(text);
     }
-
-    public void showAttackMessage(String attackerName, int damage) {
-        setMessage(attackerName + " attacked for " + damage + " damage!");
-    }
-
 }
