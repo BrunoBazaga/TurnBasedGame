@@ -6,10 +6,13 @@ public class Round {
     private final BasicAttack attack = new BasicAttack(); //initialises basic attack;
     private final Heal heal = new Heal();
     private Phase phase = Phase.PLAYER_TURN; //sets initial phase of round to be the user's turn
+    private final CombatUI combatUI;
 
-    public Round(User player, Entity enemy) { // round constructor 
+
+    public Round(User player, Entity enemy, CombatUI combatUI) { // round constructor 
         this.player = player;
         this.enemy = enemy;
+        this.combatUI = combatUI;
     }
 
     public boolean isOver() { //determines whether round is over (true) or still going (false)
@@ -20,31 +23,36 @@ public class Round {
         return phase;
     }
 
-    public void onPlayerClickAttack() { //attack method when attack button clicked
-        if (isOver()) return; //if the round is over, attacking does not execute
-        if (phase != Phase.PLAYER_TURN) return;  //if it is not the player's turn, attack does not execute
+    public void onPlayerClickAttack() {
+        if (isOver() || phase != Phase.PLAYER_TURN) return;
 
-        attack.execute(player, enemy); //executes attack, ending the round if the enemies health reaches 0
+        int damage = attack.execute(player, enemy); // 
+        combatUI.setEnemyHP(enemy.getHealth());
+        combatUI.setMessage("Hero attacked for " + damage + " damage!"); // ✅ show message
+
         if (enemy.getHealth() <= 0) {
             phase = Phase.ENDED;
             return;
         }
-        System.out.println("Hello world");
-        phase = Phase.WAITING_FOR_CLICK; //it becomes the enemies turn, same logic as above
-        enemyAutoAttack(); 
+
+        phase = Phase.WAITING_FOR_CLICK;
+        enemyAutoAttack();
+
+        combatUI.setPlayerHP(player.getHealth()); 
+
         if (player.getHealth() <= 0) {
             phase = Phase.ENDED;
             return;
         }
 
-        phase = Phase.PLAYER_TURN; //it becomes the user's turn again
+        phase = Phase.PLAYER_TURN;
     }
 
     public void onPlayerClickHeal(){
         if (isOver()) return; //if the round is over, healing does not execute
         if (phase != Phase.PLAYER_TURN) return;  //if it is not the player's turn, healing does not execute
 
-        heal.execute(player, enemy); //executes attack, ending the round if the enemies health reaches 0
+        heal.execute(player); //executes attack, ending the round if the enemies health reaches 0
         if (enemy.getHealth() <= 0) {
             return;
         }
