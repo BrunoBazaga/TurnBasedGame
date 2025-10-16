@@ -25,10 +25,10 @@ public class GameFrame extends JFrame {
         showMenu();
         setVisible(true);
 
-        User player = new User("Hero", 100,15,15,8);
+        User player = new User("Hero", 100,15,6,8);
         Entity enemy = OpponentPool.random();
 
-        round = new Round(player, enemy);
+        round = new Round(player, enemy, combatui);
     }
 
     public Round getRound(){

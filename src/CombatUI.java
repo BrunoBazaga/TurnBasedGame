@@ -11,7 +11,9 @@ public class CombatUI extends JPanel {
         setLayout(new BorderLayout());
         setBackground(new Color(205, 190, 190));
 
-        // Enemy section
+        // =========================
+        // Enemy Section
+        // =========================
         JPanel enemyPanel = new JPanel(new BorderLayout());
         enemyPanel.setOpaque(false);
         enemyPanel.setBorder(BorderFactory.createEmptyBorder(20, 40, 0, 40));
@@ -22,6 +24,7 @@ public class CombatUI extends JPanel {
         enemyHPBar = new JProgressBar(0, 100);
         enemyHPBar.setValue(100);
         enemyHPBar.setStringPainted(true);
+        enemyHPBar.setPreferredSize(new Dimension(150, 15)); // smaller HP bar
 
         JPanel enemyInfo = new JPanel(new GridLayout(2, 1));
         enemyInfo.setOpaque(false);
@@ -34,7 +37,9 @@ public class CombatUI extends JPanel {
         enemyPanel.add(enemyInfo, BorderLayout.WEST);
         enemyPanel.add(enemyLabel, BorderLayout.EAST);
 
-        // Player section
+        // =========================
+        // Player Section
+        // =========================
         JPanel playerPanel = new JPanel(new BorderLayout());
         playerPanel.setOpaque(false);
         playerPanel.setBorder(BorderFactory.createEmptyBorder(0, 40, 0, 40));
@@ -45,32 +50,51 @@ public class CombatUI extends JPanel {
         playerNameLabel = new JLabel("Player");
         playerNameLabel.setFont(new Font("Arial", Font.BOLD, 16));
 
+        // --- Smaller HP bar towards bottom right ---
         playerHPBar = new JProgressBar(0, 100);
         playerHPBar.setValue(100);
         playerHPBar.setStringPainted(true);
+        playerHPBar.setPreferredSize(new Dimension(150, 15));
 
-        JPanel playerInfo = new JPanel(new GridLayout(2, 1));
+        JPanel playerInfo = new JPanel();
+        playerInfo.setLayout(new BoxLayout(playerInfo, BoxLayout.Y_AXIS));
         playerInfo.setOpaque(false);
+        playerInfo.add(Box.createVerticalGlue());
         playerInfo.add(playerNameLabel);
+        playerInfo.add(Box.createVerticalStrut(5));
         playerInfo.add(playerHPBar);
+        playerInfo.setAlignmentX(Component.RIGHT_ALIGNMENT);
 
-        playerPanel.add(playerLabel, BorderLayout.WEST);
-        playerPanel.add(playerInfo, BorderLayout.EAST);
-
+        // --- Bigger Buttons ---
         JButton attackButton = new JButton("Attack");
-        attackButton.addActionListener(e -> {
-            frame.getRound().onPlayerClickAttack();
-        });
+        attackButton.setPreferredSize(new Dimension(120, 40));
+        attackButton.setFont(new Font("Arial", Font.BOLD, 16));
+        attackButton.addActionListener(e -> frame.getRound().onPlayerClickAttack());
 
-        JPanel playerBottomPanel = new JPanel(new BorderLayout());
-        playerBottomPanel.setOpaque(false);
-        playerBottomPanel.add(playerInfo, BorderLayout.CENTER);
-        playerBottomPanel.add(attackButton, BorderLayout.SOUTH);
+
+        JButton healButton = new JButton("Heal");
+        healButton.setPreferredSize(new Dimension(120, 40));
+        healButton.setFont(new Font("Arial", Font.BOLD, 16));
+        healButton.addActionListener(e -> frame.getRound().onPlayerClickHeal());
+
+        // Buttons side-by-side
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
+        buttonPanel.setOpaque(false);
+        buttonPanel.add(attackButton);
+        buttonPanel.add(healButton);
+
+        // Combine player info (bottom right HP) and buttons below
+        JPanel playerRightPanel = new JPanel(new BorderLayout());
+        playerRightPanel.setOpaque(false);
+        playerRightPanel.add(playerInfo, BorderLayout.EAST);
+        playerRightPanel.add(buttonPanel, BorderLayout.SOUTH);
 
         playerPanel.add(playerLabel, BorderLayout.WEST);
-        playerPanel.add(playerBottomPanel, BorderLayout.EAST);
+        playerPanel.add(playerRightPanel, BorderLayout.CENTER);
 
-        // Message box section
+        // =========================
+        // Message Box Section
+        // =========================
         messageBox = new JTextArea("A wild enemy appeared!");
         messageBox.setEditable(false);
         messageBox.setLineWrap(true);
@@ -84,13 +108,17 @@ public class CombatUI extends JPanel {
         messagePanel.setBorder(BorderFactory.createEmptyBorder(10, 40, 20, 40));
         messagePanel.add(messageBox, BorderLayout.CENTER);
 
-        // Add all panels
+        // =========================
+        // Add All Panels
+        // =========================
         add(enemyPanel, BorderLayout.NORTH);
         add(playerPanel, BorderLayout.CENTER);
         add(messagePanel, BorderLayout.SOUTH);
     }
 
-    // Update healthbar
+    // =========================
+    // Update Methods
+    // =========================
     public void setPlayerHP(int hp) {
         playerHPBar.setValue(Math.max(hp, 0));
     }
@@ -99,8 +127,12 @@ public class CombatUI extends JPanel {
         enemyHPBar.setValue(Math.max(hp, 0));
     }
 
-    // Update message box
     public void setMessage(String text) {
         messageBox.setText(text);
     }
+
+    public void showAttackMessage(String attackerName, int damage) {
+        setMessage(attackerName + " attacked for " + damage + " damage!");
+    }
+
 }

@@ -1,13 +1,17 @@
-public class Heal implements Ability {
+public class Heal implements PlayerAbility {
     private final String name = "Heal"; 
 
     @Override
     public String getName(){
         return name;
     }
-    public int execute(Entity attacker, Entity defender){
-        int health = attacker.getHealth();
-        attacker.setHealth(health+=10);
-        return attacker.getHealth();
+
+    @Override
+    public int execute(Entity player){
+        int health = player.getHealth();
+        player.setHealth(health+=10);
+        System.out.println("Your health is now " + player.getHealth());
+
+        return player.getHealth();
     }
 }

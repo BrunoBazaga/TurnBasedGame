@@ -19,7 +19,7 @@ public class BasicAttack implements Ability {
         defender.setHealth(Math.max(0, defender.getHealth() - damage)); //ensures that negative health does not occur
 
         //prints attack
-        System.out.println(attacker.getName() + " used Basic Attack on " + defender.getName() + "!");
+        System.out.println(attacker.getName() + " used Basic Attack on " + defender.getName() + " for " + damage + " damage!");
         System.out.println(attacker.getName() + " HP: " + attacker.getHealth() + " | "
                    + defender.getName() + " HP: " + defender.getHealth());
 
