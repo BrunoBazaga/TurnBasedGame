@@ -26,9 +26,9 @@ public class Round {
     public void onPlayerClickAttack() {
         if (isOver() || phase != Phase.PLAYER_TURN) return;
 
-        int damage = attack.execute(player, enemy); // 
+        int damage = attack.execute(player, enemy); //takes damage to then update UI
         combatUI.setEnemyHP(enemy.getHealth());
-        combatUI.setMessage("Hero attacked for " + damage + " damage!"); // ✅ show message
+        combatUI.setMessage("Hero attacked for " + damage + " damage!"); //
 
         if (enemy.getHealth() <= 0) {
             phase = Phase.ENDED;
