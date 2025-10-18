@@ -3,7 +3,7 @@ import javax.swing.*;
 
 public class CombatUI extends JPanel {
     private JLabel playerLabel, enemyLabel;
-    private HPBar playerHPBar, enemyHPBar;
+    private JProgressBar playerHPBar, enemyHPBar;
     private JLabel playerNameLabel, enemyNameLabel;
     private JTextArea messageBox;
 
@@ -12,7 +12,7 @@ public class CombatUI extends JPanel {
     public CombatUI(GameFrame frame) {
         this.frame = frame;
         setLayout(new BorderLayout());
-        setBackground(new Color(200, 240, 255));
+        setBackground(new Color(205, 190, 190));
 
         // Enemy panel
         JPanel enemyPanel = new JPanel(new BorderLayout());
@@ -55,7 +55,7 @@ public class CombatUI extends JPanel {
         playerHPBar.setPreferredSize(new Dimension(150, 15));
         playerHPBar.setString("100 / 100");
 
-        JPanel playerInfo = new JPanel(new GridLayout(2, 1));
+        JPanel playerInfo = new JPanel();
         playerInfo.setLayout(new BoxLayout(playerInfo, BoxLayout.Y_AXIS));
         playerInfo.setOpaque(false);
         playerInfo.add(playerNameLabel);
@@ -132,36 +132,18 @@ public class CombatUI extends JPanel {
     }
 
     public void setPlayerMaxHP(int max) {
-<<<<<<< HEAD
         playerHPBar.setMaximum(max);
-=======
-        playerHPBar.setMaxHP(Math.max(1, max));
->>>>>>> 7cfcd9c04a5a30a01153bb7404a69a081325270c
     }
     public void setEnemyMaxHP(int max) {
-<<<<<<< HEAD
         enemyHPBar.setMaximum(max);
-=======
-        enemyHPBar.setMaxHP(Math.max(1, max));
->>>>>>> 7cfcd9c04a5a30a01153bb7404a69a081325270c
     }
     public void setPlayerHP(int hp) {
-<<<<<<< HEAD
         playerHPBar.setValue(hp);
         playerHPBar.setString(hp + " / " + playerHPBar.getMaximum());
-=======
-        int clamped = Math.max(0, Math.min(hp, playerHPBar.getMaxHP()));
-        playerHPBar.setHP(clamped);
->>>>>>> 7cfcd9c04a5a30a01153bb7404a69a081325270c
     }
     public void setEnemyHP(int hp) {
-<<<<<<< HEAD
         enemyHPBar.setValue(hp);
         enemyHPBar.setString(hp + " / " + enemyHPBar.getMaximum());
-=======
-        int clamped = Math.max(0, Math.min(hp, enemyHPBar.getMaxHP()));
-        enemyHPBar.setHP(clamped);
->>>>>>> 7cfcd9c04a5a30a01153bb7404a69a081325270c
     }
     public void setMessage(String text) {
         messageBox.setText(text);
