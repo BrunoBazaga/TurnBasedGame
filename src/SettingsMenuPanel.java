@@ -30,9 +30,9 @@ public class SettingsMenuPanel extends JPanel {
         back.setFont(font);
 
         // Actions
-        easy.addActionListener(e -> frame.showMenu());
-        normal.addActionListener(e -> frame.showMenu());
-        hard.addActionListener(e -> frame.showMenu());
+        easy.addActionListener(e -> GameSettings.setDifficulty(Difficulty.EASY));
+        normal.addActionListener(e -> GameSettings.setDifficulty(Difficulty.NORMAL));
+        hard.addActionListener(e -> GameSettings.setDifficulty(Difficulty.HARD));
         back.addActionListener(e -> frame.showMenu());
 
         // Add buttons to settings panel
