@@ -3,7 +3,7 @@ import javax.swing.*;
 
 public class CombatUI extends JPanel {
     private JLabel playerLabel, enemyLabel;
-    private JProgressBar playerHPBar, enemyHPBar;
+    private HPBar playerHPBar, enemyHPBar;
     private JLabel playerNameLabel, enemyNameLabel;
     private JTextArea messageBox;
 
@@ -15,7 +15,7 @@ public class CombatUI extends JPanel {
         this.round = frame.getRound(); // <- use the SAME Round instance the frame created
 
         setLayout(new BorderLayout());
-        setBackground(new Color(205, 190, 190));
+        setBackground(new Color(200, 240, 255));
 
         // --- Enemy ---
         JPanel enemyPanel = new JPanel(new BorderLayout());
@@ -30,11 +30,8 @@ public class CombatUI extends JPanel {
         enemyNameLabel = new JLabel(enemyName);
         enemyNameLabel.setFont(new Font("Arial", Font.BOLD, 16));
 
-        enemyHPBar = new JProgressBar(0, enemyMax);
-        enemyHPBar.setValue(enemyHp);
-        enemyHPBar.setStringPainted(true);
-        enemyHPBar.setPreferredSize(new Dimension(150, 15));
-        enemyHPBar.setString(enemyHp + " / " + enemyMax);
+        enemyHPBar = new HPBar(enemyHp, enemyMax);
+        enemyHPBar.setHP(enemyHp);
 
         JPanel enemyInfo = new JPanel(new GridLayout(2, 1));
         enemyInfo.setOpaque(false);
@@ -64,13 +61,10 @@ public class CombatUI extends JPanel {
         playerNameLabel = new JLabel(playerName);
         playerNameLabel.setFont(new Font("Arial", Font.BOLD, 16));
 
-        playerHPBar = new JProgressBar(0, playerMax);
-        playerHPBar.setValue(playerHp);
-        playerHPBar.setStringPainted(true);
-        playerHPBar.setPreferredSize(new Dimension(150, 15));
-        playerHPBar.setString(playerHp + " / " + playerMax);
+        playerHPBar = new HPBar(playerHp, playerMax);
+        playerHPBar.setHP(playerHp);
 
-        JPanel playerInfo = new JPanel();
+        JPanel playerInfo = new JPanel(new GridLayout(2, 1));
         playerInfo.setLayout(new BoxLayout(playerInfo, BoxLayout.Y_AXIS));
         playerInfo.setOpaque(false);
         playerInfo.add(Box.createVerticalGlue());
@@ -147,20 +141,18 @@ public class CombatUI extends JPanel {
         if (round.getPlayer() != null) {
             int max = Math.max(1, round.getPlayer().getMaxHealth());
             int hp = Math.max(0, Math.min(round.getPlayer().getHealth(), max));
-            if (playerHPBar.getMaximum() != max)
-                playerHPBar.setMaximum(max);
-            playerHPBar.setValue(hp);
-            playerHPBar.setString(hp + " / " + max);
+            if (playerHPBar.getMaxHP() != max)
+                playerHPBar.setMaxHP(max);
+            playerHPBar.setHP(hp);
         }
 
         // Enemy
         if (round.getEnemy() != null) {
             int max = Math.max(1, round.getEnemy().getMaxHealth());
             int hp = Math.max(0, Math.min(round.getEnemy().getHealth(), max));
-            if (enemyHPBar.getMaximum() != max)
-                enemyHPBar.setMaximum(max);
-            enemyHPBar.setValue(hp);
-            enemyHPBar.setString(hp + " / " + max);
+            if (enemyHPBar.getMaxHP() != max)
+                enemyHPBar.setMaxHP(max);
+            enemyHPBar.setHP(hp);
         }
 
         // Optional: basic status message
@@ -175,25 +167,21 @@ public class CombatUI extends JPanel {
 
     // Public setters if you want to update manually elsewhere
     public void setPlayerMaxHP(int max) {
-        playerHPBar.setMaximum(Math.max(1, max));
-        playerHPBar.setString(playerHPBar.getValue() + " / " + playerHPBar.getMaximum());
+        playerHPBar.setMaxHP(Math.max(1, max));
     }
 
     public void setEnemyMaxHP(int max) {
-        enemyHPBar.setMaximum(Math.max(1, max));
-        enemyHPBar.setString(enemyHPBar.getValue() + " / " + enemyHPBar.getMaximum());
+        enemyHPBar.setMaxHP(Math.max(1, max));
     }
 
     public void setPlayerHP(int hp) {
-        int clamped = Math.max(0, Math.min(hp, playerHPBar.getMaximum()));
-        playerHPBar.setValue(clamped);
-        playerHPBar.setString(clamped + " / " + playerHPBar.getMaximum());
+        int clamped = Math.max(0, Math.min(hp, playerHPBar.getMaxHP()));
+        playerHPBar.setHP(clamped);
     }
 
     public void setEnemyHP(int hp) {
-        int clamped = Math.max(0, Math.min(hp, enemyHPBar.getMaximum()));
-        enemyHPBar.setValue(clamped);
-        enemyHPBar.setString(clamped + " / " + enemyHPBar.getMaximum());
+        int clamped = Math.max(0, Math.min(hp, enemyHPBar.getMaxHP()));
+        enemyHPBar.setHP(clamped);
     }
 
     public void setMessage(String text) {
