@@ -12,12 +12,12 @@ public class Entity {
         this.defencePower = defencePower;
         this.speed = speed;
 
-        // Treat the provided health as BOTH current and max at start
+        // considers the provided health as both current and max at start
         this.maxHealth = Math.max(1, health);
         this.health = Math.max(0, Math.min(health, this.maxHealth));
     }
 
-    // --- Getters ---
+    //getters for entities
     public String getName()        { return name; }
     public int getAttackPower()    { return attackPower; }
     public int getDefencePower()   { return defencePower; }
@@ -25,7 +25,7 @@ public class Entity {
     public int getHealth()         { return health; }
     public int getMaxHealth()      { return maxHealth; }
 
-    // --- Setters (with safe clamping) ---
+    //setters for entities
     public void setHealth(int health) {
         this.health = Math.max(0, Math.min(health, this.maxHealth));
     }
@@ -34,5 +34,9 @@ public class Entity {
         this.maxHealth = Math.max(1, maxHealth);
         // Keep current health within the new bounds
         this.health = Math.min(this.health, this.maxHealth);
+    }
+
+    public void setAttackPower(int attackPower){
+        this.attackPower = attackPower;
     }
 }

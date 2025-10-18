@@ -1,64 +1,64 @@
-public class Round {
-    public enum Phase { PLAYER_TURN, WAITING_FOR_CLICK, ENDED }
+import javax.swing.SwingUtilities;
 
-    private final User player;
+public class Round {
+
+    public enum Phase { PLAYER_TURN, WAITING_FOR_CLICK, ENDED } //enums for all possible phases of a round
+
+    public interface Listener {
+        void onBattleEnded(boolean playerWon); //listener interface
+    }
+
+    private final User player;  //initialisation of entities and abilities
     private final Entity enemy;
     private final BasicAttack attack = new BasicAttack();
     private final Heal heal = new Heal();
 
-    private Phase phase = Phase.PLAYER_TURN;
+    private Phase phase = Phase.PLAYER_TURN; //sets phase to be the players turn.
+    private CombatUI combatUI;
+    private Listener listener;
 
-    // UI is attached after construction
-    private CombatUI combatUI; // may be null until GameFrame calls attachUI()
-
-    public Round(User player, Entity enemy, CombatUI combatUI) {
+    public Round(User player, Entity enemy, CombatUI combatUI) { //round constructor
         this.player = player;
-        this.enemy  = enemy;
-        this.combatUI = combatUI; // can be null initially
+        this.enemy = enemy;
+        this.combatUI = combatUI;
     }
 
-    /** Attach the UI once it has been constructed so Round can push updates safely. */
-    public void attachUI(CombatUI ui) {
-        this.combatUI = ui;
-    }
+    public void attachUI(CombatUI ui) { this.combatUI = ui; } //attaches UI to round
+    public void setListener(Listener l) { this.listener = l; } //initialises listener
 
     public boolean isOver() {
-        return phase == Phase.ENDED || player.getHealth() <= 0 || enemy.getHealth() <= 0;
+        return phase == Phase.ENDED || player.getHealth() <= 0 || enemy.getHealth() <= 0; //returns isOver as true if player or enemy health is equal to 0 or if phase = ended
     }
 
-    public Phase getPhase() {
-        return phase;
-    }
+    public Phase getPhase() { return phase; } 
 
-    public void onPlayerClickAttack() {
-        // quick debug (optional)
-        // System.out.println("[Round] isOver=" + isOver() + " P=" + player.getHealth() + " E=" + enemy.getHealth() + " phase=" + phase);
+    // player actions
+    public void onPlayerClickAttack() { //executes when Attack button is clicked
+        if (isOver() || phase != Phase.PLAYER_TURN) return; //if the round is over or it is not the players turn, method returns nothing.
 
-        if (isOver() || phase != Phase.PLAYER_TURN) return;
-
-        int damageToEnemy = attack.execute(player, enemy);
+        int dmg = attack.execute(player, enemy);
         pushEnemyHP();
-        pushMessage(player.getName() + " used Basic Attack on " + enemy.getName() + " for " + damageToEnemy + " damage!");
+        pushMessage(player.getName() + " attacked " + enemy.getName() + " for " + dmg + " damage!");
 
         if (enemy.getHealth() <= 0) {
             phase = Phase.ENDED;
             pushMessage(enemy.getName() + " is defeated!");
+            notifyEnded(true);
             return;
         }
 
         phase = Phase.WAITING_FOR_CLICK;
         enemyAutoAttack();
-
         if (player.getHealth() <= 0) {
             phase = Phase.ENDED;
             pushMessage(player.getName() + " is defeated!");
+            notifyEnded(false);
             return;
         }
-
         phase = Phase.PLAYER_TURN;
     }
 
-    public void onPlayerClickHeal() {
+    public void onPlayerClickHeal() { //healing button
         if (isOver() || phase != Phase.PLAYER_TURN) return;
 
         heal.execute(player);
@@ -67,40 +67,49 @@ public class Round {
 
         phase = Phase.WAITING_FOR_CLICK;
         enemyAutoAttack();
-
         if (player.getHealth() <= 0) {
             phase = Phase.ENDED;
             pushMessage(player.getName() + " is defeated!");
+            notifyEnded(false);
             return;
         }
-
         phase = Phase.PLAYER_TURN;
     }
 
-    private void enemyAutoAttack() {
-        int damageToPlayer = attack.execute(enemy, player);
+    private void enemyAutoAttack() { //enemy attack
+        int dmg = attack.execute(enemy, player);
         pushPlayerHP();
-        pushMessage(enemy.getName() + " attacked for " + damageToPlayer + " damage!");
+        pushMessage(enemy.getName() + " attacked for " + dmg + " damage!");
     }
 
-    // ---- Push helpers (no-ops if UI not attached yet) ----
-    private void pushPlayerHP() {
-        if (combatUI != null) combatUI.setPlayerHP(player.getHealth());
+    private void notifyEnded(boolean playerWon) {
+        if (listener != null)
+            SwingUtilities.invokeLater(() -> listener.onBattleEnded(playerWon));
     }
 
-    private void pushEnemyHP() {
-        if (combatUI != null) combatUI.setEnemyHP(enemy.getHealth());
+    //UI updaters
+    private void pushPlayerHP() { //updates Player HP in UI
+        if (combatUI == null) return;
+        int hp = Math.max(0, player.getHealth());
+        SwingUtilities.invokeLater(() -> combatUI.setPlayerHP(hp));
     }
 
-    private void pushMessage(String text) {
-        if (combatUI != null) combatUI.setMessage(text);
+    private void pushEnemyHP() { //updates enemy HP in UI
+        if (combatUI == null) return;
+        int hp = Math.max(0, enemy.getHealth());
+        SwingUtilities.invokeLater(() -> combatUI.setEnemyHP(hp));
     }
 
-    // ---- Expose info to UI if needed ----
-    public User getPlayer()  { return player; }
+    private void pushMessage(String text) { //method to display messages in message box
+        if (combatUI == null) return;
+        SwingUtilities.invokeLater(() -> combatUI.setMessage(text));
+    }
+
+    // getters for entities
+    public User getPlayer() { return player; }
     public Entity getEnemy() { return enemy; }
     public String getPlayerName() { return player.getName(); }
-    public String getEnemyName()  { return enemy.getName(); }
-    public int getPlayerHp()      { return player.getHealth(); }
-    public int getEnemyHp()       { return enemy.getHealth(); }
+    public String getEnemyName() { return enemy.getName(); }
+    public int getPlayerHp() { return player.getHealth(); }
+    public int getEnemyHp() { return enemy.getHealth(); }
 }

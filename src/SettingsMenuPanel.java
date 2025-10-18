@@ -1,23 +1,20 @@
-import javax.swing.*;
 import java.awt.*;
+import javax.swing.*;
 
 public class SettingsMenuPanel extends JPanel {
     public SettingsMenuPanel(GameFrame frame) {
         setLayout(new BorderLayout());
-        setBackground(Color.GRAY);  
+        setBackground(Color.GRAY);
 
-        JLabel settingsTitle = new JLabel("Change difficulty", SwingConstants.CENTER);
-        settingsTitle.setFont(new Font("Arial", Font.PLAIN, 20));
-        settingsTitle.setForeground(Color.WHITE);
-        add(settingsTitle, BorderLayout.NORTH);
+        JLabel title = new JLabel("Change Difficulty", SwingConstants.CENTER);
+        title.setFont(new Font("Arial", Font.BOLD, 20));
+        title.setForeground(Color.WHITE);
+        add(title, BorderLayout.NORTH);
 
-        // Create panle for buttons
-        JLabel settingsPanel = new JLabel();
-        settingsPanel.setLayout(new GridLayout(4, 1, 10, 10));
-        settingsPanel.setBackground(Color.GRAY);
-        settingsPanel.setBorder(BorderFactory.createEmptyBorder(30, 100, 30, 100));
+        JPanel panel = new JPanel(new GridLayout(4, 1, 10, 10));
+        panel.setBackground(Color.GRAY);
+        panel.setBorder(BorderFactory.createEmptyBorder(30, 100, 30, 100));
 
-        // Settings menu buttons
         JButton easy = new JButton("Easy");
         JButton normal = new JButton("Normal");
         JButton hard = new JButton("Hard");
@@ -29,18 +26,16 @@ public class SettingsMenuPanel extends JPanel {
         hard.setFont(font);
         back.setFont(font);
 
-        // Actions
-        easy.addActionListener(e -> GameSettings.setDifficulty(Difficulty.EASY));
-        normal.addActionListener(e -> GameSettings.setDifficulty(Difficulty.NORMAL));
-        hard.addActionListener(e -> GameSettings.setDifficulty(Difficulty.HARD));
+        
+        easy.addActionListener(e -> DifficultyApplier.setDifficulty(Difficulty.EASY));
+        normal.addActionListener(e -> DifficultyApplier.setDifficulty(Difficulty.NORMAL));
+        hard.addActionListener(e -> DifficultyApplier.setDifficulty(Difficulty.HARD));
         back.addActionListener(e -> frame.showMenu());
 
-        // Add buttons to settings panel
-        settingsPanel.add(easy);
-        settingsPanel.add(normal);
-        settingsPanel.add(hard);
-        settingsPanel.add(back);
-
-        add(settingsPanel, BorderLayout.CENTER);
+        panel.add(easy);
+        panel.add(normal);
+        panel.add(hard);
+        panel.add(back);
+        add(panel, BorderLayout.CENTER);
     }
 }
