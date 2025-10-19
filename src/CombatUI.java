@@ -5,6 +5,7 @@ public class CombatUI extends JPanel {
     private JLabel playerLabel, enemyLabel;
     private JProgressBar playerHPBar, enemyHPBar;
     private JLabel playerNameLabel, enemyNameLabel;
+    private JButton attackButton, healButton;
     private JTextArea messageBox;
 
     private final GameFrame frame;
@@ -34,7 +35,7 @@ public class CombatUI extends JPanel {
         enemyInfo.add(enemyNameLabel);
         enemyInfo.add(enemyHPBar);
 
-        enemyLabel = new JLabel();
+        enemyLabel = new JLabel(new ImageIcon(" "));
         enemyLabel.setHorizontalAlignment(SwingConstants.RIGHT);
         enemyPanel.add(enemyInfo, BorderLayout.WEST);
         enemyPanel.add(enemyLabel, BorderLayout.EAST);
@@ -44,8 +45,8 @@ public class CombatUI extends JPanel {
         playerPanel.setOpaque(false);
         playerPanel.setBorder(BorderFactory.createEmptyBorder(0, 40, 0, 40));
 
-        playerLabel = new JLabel();
-        playerLabel.setHorizontalAlignment(SwingConstants.LEFT);
+        playerLabel = new JLabel(new ImageIcon("PlayerBACK.png"));
+        playerLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
         playerNameLabel = new JLabel("Player");
         playerNameLabel.setFont(new Font("Arial", Font.BOLD, 16));
@@ -64,7 +65,7 @@ public class CombatUI extends JPanel {
         playerInfo.add(Box.createVerticalStrut(5));
         playerInfo.add(playerHPBar);
 
-        JButton attackButton = new JButton("Attack");
+        attackButton = new JButton("Attack");
         attackButton.addActionListener(e -> {
             Round r = frame.getRound();
             if (r != null) {
@@ -73,7 +74,7 @@ public class CombatUI extends JPanel {
             }
         });
 
-        JButton healButton = new JButton("Heal");
+        healButton = new JButton("Heal");
         healButton.addActionListener(e -> {
             Round r = frame.getRound();
             if (r != null) {
@@ -112,7 +113,14 @@ public class CombatUI extends JPanel {
         add(enemyPanel, BorderLayout.NORTH);
         add(playerPanel, BorderLayout.CENTER);
         add(messagePanel, BorderLayout.SOUTH);
+
     }
+
+    // Set buttons enabled/disabled
+    public void setButtonsEnabled(boolean enabled) {
+        attackButton.setEnabled(enabled);
+        healButton.setEnabled(enabled);
+    }   
 
     // Initialize the UI with a fresh Round
     public void initFromRound(Round round) {
@@ -131,6 +139,25 @@ public class CombatUI extends JPanel {
         if (round == null) return;
         setPlayerHP(round.getPlayer().getHealth());
         setEnemyHP(round.getEnemy().getHealth());
+    }
+
+    // Flash the sprite of an entity
+    public void flashSprite(JLabel spriteLabel) {
+        final int[] count = {0};
+
+        Timer flashTimer = new Timer(100, e -> {
+            // toggle visibility
+            spriteLabel.setVisible(!spriteLabel.isVisible());
+            count[0]++;
+
+            // stop after 6 toggles (3 flashes)
+            if (count[0] >= 6) {
+                ((Timer) e.getSource()).stop();
+                spriteLabel.setVisible(true); // ensure visible at the end
+            }
+        });
+
+        flashTimer.start();
     }
 
     public void setPlayerMaxHP(int max) {
