@@ -35,7 +35,7 @@ public class CombatUI extends JPanel {
         enemyInfo.add(enemyNameLabel);
         enemyInfo.add(enemyHPBar);
 
-        enemyLabel = new JLabel(new ImageIcon(" "));
+        enemyLabel = new JLabel();
         enemyLabel.setHorizontalAlignment(SwingConstants.RIGHT);
         enemyPanel.add(enemyInfo, BorderLayout.WEST);
         enemyPanel.add(enemyLabel, BorderLayout.EAST);
@@ -45,7 +45,9 @@ public class CombatUI extends JPanel {
         playerPanel.setOpaque(false);
         playerPanel.setBorder(BorderFactory.createEmptyBorder(0, 40, 0, 40));
 
-        playerLabel = new JLabel(new ImageIcon("PlayerBACK.png"));
+        playerLabel = new JLabel();
+        playerLabel.setIcon(new ImageIcon("PLayerBACK.png"));
+        playerLabel.setPreferredSize(new Dimension(100, 100));
         playerLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
         playerNameLabel = new JLabel("Player");
@@ -127,6 +129,7 @@ public class CombatUI extends JPanel {
         if (round == null) return;
         playerNameLabel.setText(round.getPlayerName());
         enemyNameLabel.setText(round.getEnemyName());
+        enemyLabel.setIcon(new ImageIcon(round.getEnemySpritePath()));
         setPlayerMaxHP(round.getPlayer().getMaxHealth());
         setEnemyMaxHP(round.getEnemy().getMaxHealth());
         setPlayerHP(round.getPlayer().getHealth());
