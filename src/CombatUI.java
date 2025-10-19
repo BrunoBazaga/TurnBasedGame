@@ -24,6 +24,7 @@ public class CombatUI extends JPanel {
 
         enemyHPBar = new JProgressBar(0, 100);
         enemyHPBar.setValue(100);
+        enemyHPBar.setForeground(new Color(0, 200, 0));
         enemyHPBar.setStringPainted(true);
         enemyHPBar.setPreferredSize(new Dimension(150, 15));
         enemyHPBar.setString("100 / 100");
@@ -51,6 +52,7 @@ public class CombatUI extends JPanel {
 
         playerHPBar = new JProgressBar(0, 100);
         playerHPBar.setValue(100);
+        playerHPBar.setForeground(new Color(0, 200, 0));
         playerHPBar.setStringPainted(true);
         playerHPBar.setPreferredSize(new Dimension(150, 15));
         playerHPBar.setString("100 / 100");
