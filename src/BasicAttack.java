@@ -13,7 +13,7 @@ public class BasicAttack implements Ability {
     public int execute(Entity attacker, Entity defender) {
         int percent = 85 + rng.nextInt(31); //generates a number between 85 and 115 to act as a multiplier
         int base = attacker.getAttackPower() - defender.getDefencePower();
-        int rawDamage = (base * percent) / 100; //computes damage including multiplier
+        int rawDamage = (base * percent) / 100 * critMultiplier(); //computes damage including multiplier
         int damage = Math.max(1, rawDamage); //ensures that damage is at least 1
 
         defender.setHealth(Math.max(0, defender.getHealth() - damage)); //ensures that negative health does not occur
@@ -25,5 +25,21 @@ public class BasicAttack implements Ability {
 
 
         return damage;
+    }
+
+    public int critMultiplier() {
+        int multiplier = 1; //sets crit multiplier to 1 by default
+        if (rng.nextDouble() < 0.1) { //10% chance to crit
+            multiplier = 2;
+        }
+        return multiplier;
+    }
+
+    public String critMesssage() {
+        if (critMultiplier() == 2) {
+            return " A critical hit!";
+        } else {
+            return "";
+        }
     }
 }

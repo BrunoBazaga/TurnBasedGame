@@ -38,7 +38,7 @@ public class Round {
 
         int dmg = attack.execute(player, enemy);
         pushEnemyHP();
-        pushMessage(player.getName() + " attacked " + enemy.getName() + " for " + dmg + " damage!");
+        pushMessage(player.getName() + " attacked " + enemy.getName() + " for " + dmg + " damage!" + attack.critMesssage());
 
         if (enemy.getHealth() <= 0) {
             phase = Phase.ENDED;
@@ -79,7 +79,7 @@ public class Round {
     private void enemyAutoAttack() { //enemy attack
         int dmg = attack.execute(enemy, player);
         pushPlayerHP();
-        pushMessage(enemy.getName() + " attacked for " + dmg + " damage!");
+        pushMessage(enemy.getName() + " attacked for " + dmg + " damage!" + attack.critMesssage());
     }
 
     private void notifyEnded(boolean playerWon) {
