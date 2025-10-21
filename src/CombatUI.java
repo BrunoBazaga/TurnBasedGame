@@ -46,7 +46,7 @@ public class CombatUI extends JPanel {
         playerPanel.setBorder(BorderFactory.createEmptyBorder(0, 40, 0, 40));
 
         playerLabel = new JLabel();
-        playerLabel.setIcon(new ImageIcon("PLayerBACK.png"));
+        playerLabel.setIcon(new ImageIcon("src/PLayerBACK.png"));
         playerLabel.setPreferredSize(new Dimension(100, 100));
         playerLabel.setHorizontalAlignment(SwingConstants.CENTER);
 

@@ -8,10 +8,10 @@ public final class OpponentPool {
     private static final Random RNG = new Random();
 
     private static final List<Supplier<Entity>> OPPONENTS = new ArrayList<>(List.of(
-            () -> new Entity("Goblin", 50, 10, 5, 8),
-            () -> new Entity("Knight", 90, 18, 12, 6),
-            () -> new Entity("Assassin", 60, 22, 4, 12),
-            () -> new Entity("Dragon", 200, 40, 20, 7)));
+            () -> new Entity("Dragon", 120, 21, 15, 22),
+            () -> new Entity("Knight", 90, 18, 18, 6),
+            () -> new Entity("Wolf", 70, 22, 12, 18),
+            () -> new Entity("Goblin", 50, 10, 5, 8)));
 
     private static final List<Supplier<Entity>> defeatedOpponents = new ArrayList<>(OPPONENTS);
 
