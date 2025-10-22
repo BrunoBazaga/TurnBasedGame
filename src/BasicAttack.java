@@ -44,6 +44,6 @@ public class BasicAttack implements Ability {
     }
 
     public boolean missed() {
-        return rng.nextDouble() < 0.9; //10% chance to miss
+        return rng.nextDouble() < 0.1; //10% chance to miss
     }
 }
