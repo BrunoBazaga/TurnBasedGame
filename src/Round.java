@@ -35,10 +35,13 @@ public class Round {
     // player actions
     public void onPlayerClickAttack() { //executes when Attack button is clicked
         if (isOver() || phase != Phase.PLAYER_TURN) return; //if the round is over or it is not the players turn, method returns nothing.
-
-        int dmg = attack.execute(player, enemy);
-        pushEnemyHP();
-        pushMessage(player.getName() + " attacked " + enemy.getName() + " for " + dmg + " damage!" + attack.critMesssage());
+        if (attack.missed()) {
+            pushMessage(player.getName() + "'s attack missed!");
+        } else {
+            int dmg = attack.execute(player, enemy);
+            pushEnemyHP();
+            pushMessage(player.getName() + " attacked " + enemy.getName() + " for " + dmg + " damage!" + attack.critMesssage());
+        }
 
         if (enemy.getHealth() <= 0) {
             phase = Phase.ENDED;
@@ -77,9 +80,13 @@ public class Round {
     }
 
     private void enemyAutoAttack() { //enemy attack
-        int dmg = attack.execute(enemy, player);
-        pushPlayerHP();
-        pushMessage(enemy.getName() + " attacked for " + dmg + " damage!" + attack.critMesssage());
+        if (attack.missed()) {
+            pushMessage(enemy.getName() + "'s attack missed!");
+        } else {
+            int dmg = attack.execute(enemy, player);
+            pushPlayerHP();
+            pushMessage(enemy.getName() + " attacked for " + dmg + " damage!" + attack.critMesssage());
+        }
     }
 
     private void notifyEnded(boolean playerWon) {
