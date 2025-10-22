@@ -119,5 +119,5 @@ public class Round {
     public String getEnemyName() { return enemy.getName(); }
     public int getPlayerHp() { return player.getHealth(); }
     public int getEnemyHp() { return enemy.getHealth(); }
-    public String getEnemySpritePath() { return enemy.getName().toLowerCase() + ".png"; }
+    public String getEnemySpritePath() { return "src/images/" + enemy.getName().toLowerCase() + ".png"; }
 }

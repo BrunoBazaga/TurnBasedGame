@@ -12,7 +12,7 @@ public class GameFrame extends JFrame {
 
     public GameFrame() {
         setTitle("Game");
-        setSize(500, 350);
+        setSize(800, 600);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         getContentPane().setLayout(new CardLayout());
 

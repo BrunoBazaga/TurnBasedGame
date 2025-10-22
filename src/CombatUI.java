@@ -13,7 +13,7 @@ public class CombatUI extends JPanel {
     public CombatUI(GameFrame frame) {
         this.frame = frame;
         setLayout(new BorderLayout());
-        setBackground(new Color(205, 190, 190));
+        setBackground(new Color(160, 200, 245));
 
         // Enemy panel
         JPanel enemyPanel = new JPanel(new BorderLayout());
@@ -38,7 +38,7 @@ public class CombatUI extends JPanel {
         enemyLabel = new JLabel();
         enemyLabel.setHorizontalAlignment(SwingConstants.RIGHT);
         enemyPanel.add(enemyInfo, BorderLayout.WEST);
-        enemyPanel.add(enemyLabel, BorderLayout.EAST);
+        enemyPanel.add(enemyLabel, BorderLayout.NORTH);
 
         // Player panel
         JPanel playerPanel = new JPanel(new BorderLayout());
@@ -46,8 +46,8 @@ public class CombatUI extends JPanel {
         playerPanel.setBorder(BorderFactory.createEmptyBorder(0, 40, 0, 40));
 
         playerLabel = new JLabel();
-        playerLabel.setIcon(new ImageIcon("src/PLayerBACK.png"));
-        playerLabel.setPreferredSize(new Dimension(100, 100));
+        playerLabel.setIcon(new ImageIcon("src/images/PLayerBACK_small_2x.png"));
+        playerLabel.setPreferredSize(new Dimension(200, 200));
         playerLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
         playerNameLabel = new JLabel("Player");
@@ -95,8 +95,8 @@ public class CombatUI extends JPanel {
         playerRight.add(playerInfo, BorderLayout.EAST);
         playerRight.add(buttonPanel, BorderLayout.SOUTH);
 
-        playerPanel.add(playerLabel, BorderLayout.WEST);
-        playerPanel.add(playerRight, BorderLayout.CENTER);
+        playerPanel.add(playerLabel, BorderLayout.CENTER);
+        playerPanel.add(playerRight, BorderLayout.EAST);
 
         // Message box
         messageBox = new JTextArea("A wild enemy appeared!");
