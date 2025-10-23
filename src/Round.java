@@ -34,7 +34,12 @@ public class Round {
 
     // player actions
     public void onPlayerClickAttack() { //executes when Attack button is clicked
-        if (isOver() || phase != Phase.PLAYER_TURN) return; //if the round is over or it is not the players turn, method returns nothing.
+        if (isOver() || phase != Phase.PLAYER_TURN) {
+            return; //if the round is over or it is not the players turn, method returns nothing.
+        } else {
+            combatUI.setButtonsEnabled(false); //disables buttons to prevent multiple clicks
+        }
+
         if (attack.missed()) {
             pushMessage(player.getName() + "'s attack missed!");
         } else {
@@ -43,40 +48,60 @@ public class Round {
             pushMessage(player.getName() + " attacked " + enemy.getName() + " for " + dmg + " damage!" + attack.critMesssage());
         }
 
-        if (enemy.getHealth() <= 0) {
-            phase = Phase.ENDED;
-            pushMessage(enemy.getName() + " is defeated!");
-            notifyEnded(true);
-            return;
-        }
+        new javax.swing.Timer(1500, e -> {
+            if (enemy.getHealth() <= 0) {
+                phase = Phase.ENDED;
+                pushMessage(enemy.getName() + " is defeated!");
+                notifyEnded(true);
+                combatUI.setButtonsEnabled(true);
+                ((javax.swing.Timer) e.getSource()).stop();
+                return;
+            }
 
-        phase = Phase.WAITING_FOR_CLICK;
-        enemyAutoAttack();
-        if (player.getHealth() <= 0) {
-            phase = Phase.ENDED;
-            pushMessage(player.getName() + " is defeated!");
-            notifyEnded(false);
-            return;
-        }
-        phase = Phase.PLAYER_TURN;
+            phase = Phase.WAITING_FOR_CLICK;
+            enemyAutoAttack();
+            if (player.getHealth() <= 0) {
+                phase = Phase.ENDED;
+                pushMessage(player.getName() + " is defeated!");
+                notifyEnded(false);
+                combatUI.setButtonsEnabled(true);
+                ((javax.swing.Timer) e.getSource()).stop();
+                return;
+            }
+            phase = Phase.PLAYER_TURN;
+
+            combatUI.setButtonsEnabled(true);
+            ((javax.swing.Timer) e.getSource()).stop();
+        }).start();
     }
 
     public void onPlayerClickHeal() { //healing button
-        if (isOver() || phase != Phase.PLAYER_TURN) return;
+        if (isOver() || phase != Phase.PLAYER_TURN) {
+            return;
+        } else {
+            combatUI.setButtonsEnabled(false); //disables buttons to prevent multiple clicks
+        }
 
         heal.execute(player);
         pushPlayerHP();
         pushMessage(player.getName() + " healed!");
 
-        phase = Phase.WAITING_FOR_CLICK;
-        enemyAutoAttack();
-        if (player.getHealth() <= 0) {
-            phase = Phase.ENDED;
-            pushMessage(player.getName() + " is defeated!");
-            notifyEnded(false);
-            return;
-        }
-        phase = Phase.PLAYER_TURN;
+        new javax.swing.Timer(1500, ev -> {
+            phase = Phase.WAITING_FOR_CLICK;
+            enemyAutoAttack();
+            if (player.getHealth() <= 0) {
+                phase = Phase.ENDED;
+                pushMessage(player.getName() + " is defeated!");
+                notifyEnded(false);
+                combatUI.setButtonsEnabled(true);
+                ((javax.swing.Timer) ev.getSource()).stop();
+                return;
+            }
+            phase = Phase.PLAYER_TURN;
+
+            combatUI.setButtonsEnabled(true);
+            ((javax.swing.Timer) ev.getSource()).stop();
+        }).start();
     }
 
     private void enemyAutoAttack() { //enemy attack

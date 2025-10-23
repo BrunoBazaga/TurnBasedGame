@@ -144,23 +144,12 @@ public class CombatUI extends JPanel {
         setEnemyHP(round.getEnemy().getHealth());
     }
 
-    // Flash the sprite of an entity
-    public void flashSprite(JLabel spriteLabel) {
-        final int[] count = {0};
+    public JLabel getEnemyLabel() {
+        return enemyLabel;
+    }
 
-        Timer flashTimer = new Timer(100, e -> {
-            // toggle visibility
-            spriteLabel.setVisible(!spriteLabel.isVisible());
-            count[0]++;
-
-            // stop after 6 toggles (3 flashes)
-            if (count[0] >= 6) {
-                ((Timer) e.getSource()).stop();
-                spriteLabel.setVisible(true); // ensure visible at the end
-            }
-        });
-
-        flashTimer.start();
+    public JLabel getPlayerLabel() {
+        return playerLabel;
     }
 
     public void setPlayerMaxHP(int max) {
