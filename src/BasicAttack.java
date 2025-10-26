@@ -9,7 +9,7 @@ public class BasicAttack implements Ability {
     public String getName() { return name; } //returns name of the ability
 
     @Override
-    //creation of attack method from Ability interface with attacker and defender as pa
+    //execute method 
     public int execute(Entity attacker, Entity defender) {
         int percent = 85 + rng.nextInt(31); //generates a number between 85 and 115 to act as a multiplier
         int base = attacker.getAttackPower() - defender.getDefencePower();

@@ -4,7 +4,7 @@ public final class DifficultyApplier {
 
     public static void setDifficulty(Difficulty d) {
         difficulty = d;
-        System.out.println("[Applier] setDifficulty -> " + d); //terminal output to test system
+        System.out.println("[Applier] setDifficulty -> " + d); //terminal output to test 
     }
 
     public static Difficulty getDifficulty() { return difficulty; }
