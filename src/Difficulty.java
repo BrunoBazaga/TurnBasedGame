@@ -1,7 +1,7 @@
 public enum Difficulty {
     EASY(0.8),
     NORMAL(1.0),
-    HARD(1.2);
+    HARD(1.5);
 
     private final double enemyAttackMultiplier;
 

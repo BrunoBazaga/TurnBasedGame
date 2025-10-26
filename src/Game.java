@@ -17,7 +17,7 @@ public class Game implements Round.Listener {
 
     //starts game when start button is pressed
     public void startNewRun() {
-        this.player = new User("Hero", 100, 25, 15, 20);  
+        this.player = new User("Hero", 120, 18, 8, 8);  
         OpponentPool.reset(); //ensures all opponents are available for selection
         startNextBattle();
     }

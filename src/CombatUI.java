@@ -5,7 +5,7 @@ public class CombatUI extends JPanel {
     private JLabel playerLabel, enemyLabel;
     private JProgressBar playerHPBar, enemyHPBar;
     private JLabel playerNameLabel, enemyNameLabel;
-    private JButton attackButton, healButton;
+    private JButton attackButton, healButton, powerAttackButton;
     private JTextArea messageBox;
 
     private final GameFrame frame;
@@ -85,10 +85,20 @@ public class CombatUI extends JPanel {
             }
         });
 
+        powerAttackButton = new JButton("Power Attack");
+        powerAttackButton.addActionListener(e ->{
+            Round r = frame.getRound();
+            if(r != null){
+                r.onPlayerClickPowerAttack();
+                syncFromRound();
+            }
+        });
+
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
         buttonPanel.setOpaque(false);
         buttonPanel.add(attackButton);
         buttonPanel.add(healButton);
+        buttonPanel.add(powerAttackButton);
 
         JPanel playerRight = new JPanel(new BorderLayout());
         playerRight.setOpaque(false);
@@ -122,6 +132,7 @@ public class CombatUI extends JPanel {
     public void setButtonsEnabled(boolean enabled) {
         attackButton.setEnabled(enabled);
         healButton.setEnabled(enabled);
+        powerAttackButton.setEnabled(enabled);
     }   
 
     // Initialize the UI with a fresh Round
