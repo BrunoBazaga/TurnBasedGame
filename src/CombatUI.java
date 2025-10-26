@@ -86,9 +86,9 @@ public class CombatUI extends JPanel {
         });
 
         powerAttackButton = new JButton("Power Attack");
-        powerAttackButton.addActionListener(e ->{
+        powerAttackButton.addActionListener(e -> {
             Round r = frame.getRound();
-            if(r != null){
+            if (r != null) {
                 r.onPlayerClickPowerAttack();
                 syncFromRound();
             }
@@ -133,11 +133,12 @@ public class CombatUI extends JPanel {
         attackButton.setEnabled(enabled);
         healButton.setEnabled(enabled);
         powerAttackButton.setEnabled(enabled);
-    }   
+    }
 
     // Initialize the UI with a fresh Round
     public void initFromRound(Round round) {
-        if (round == null) return;
+        if (round == null)
+            return;
         playerNameLabel.setText(round.getPlayerName());
         enemyNameLabel.setText(round.getEnemyName());
         enemyLabel.setIcon(new ImageIcon(round.getEnemySpritePath()));
@@ -150,7 +151,8 @@ public class CombatUI extends JPanel {
 
     private void syncFromRound() {
         Round round = frame.getRound();
-        if (round == null) return;
+        if (round == null)
+            return;
         setPlayerHP(round.getPlayer().getHealth());
         setEnemyHP(round.getEnemy().getHealth());
     }
@@ -166,17 +168,21 @@ public class CombatUI extends JPanel {
     public void setPlayerMaxHP(int max) {
         playerHPBar.setMaximum(max);
     }
+
     public void setEnemyMaxHP(int max) {
         enemyHPBar.setMaximum(max);
     }
+
     public void setPlayerHP(int hp) {
         playerHPBar.setValue(hp);
         playerHPBar.setString(hp + " / " + playerHPBar.getMaximum());
     }
+
     public void setEnemyHP(int hp) {
         enemyHPBar.setValue(hp);
         enemyHPBar.setString(hp + " / " + enemyHPBar.getMaximum());
     }
+
     public void setMessage(String text) {
         messageBox.setText(text);
     }

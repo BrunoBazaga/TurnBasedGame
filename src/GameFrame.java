@@ -16,16 +16,17 @@ public class GameFrame extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         getContentPane().setLayout(new CardLayout());
 
-        this.combatui     = new CombatUI(this);
-        this.startmenu    = new StartMenuPanel(this);
+        this.combatui = new CombatUI(this);
+        this.startmenu = new StartMenuPanel(this);
         this.settingsmenu = new SettingsMenuPanel(this);
-        this.game         = new Game(this, combatui);
+        this.game = new Game(this, combatui);
 
         add(startmenu, "Menu");
-        add(combatui,  "Game");
+        add(combatui, "Game");
         add(settingsmenu, "Settings");
 
-        // Show menu first; difficulty is normal by default so start button works even if user never opens Settings.
+        // Show menu first; difficulty is normal by default so start button works even
+        // if user never opens Settings.
         showMenu();
         setVisible(true);
     }
@@ -34,17 +35,24 @@ public class GameFrame extends JFrame {
         game.startNewRun();
     }
 
-    public void setRound(Round r) { this.round = r; }
-    public Round getRound() { return round; }
+    public void setRound(Round r) {
+        this.round = r;
+    }
+
+    public Round getRound() {
+        return round;
+    }
 
     public void showMenu() {
-        ((CardLayout)getContentPane().getLayout()).show(getContentPane(), "Menu");
+        ((CardLayout) getContentPane().getLayout()).show(getContentPane(), "Menu");
     }
+
     public void showGame() {
-        ((CardLayout)getContentPane().getLayout()).show(getContentPane(), "Game");
+        ((CardLayout) getContentPane().getLayout()).show(getContentPane(), "Game");
     }
+
     public void showSettings() {
-        ((CardLayout)getContentPane().getLayout()).show(getContentPane(), "Settings");
+        ((CardLayout) getContentPane().getLayout()).show(getContentPane(), "Settings");
     }
 
     public static void main(String[] args) {

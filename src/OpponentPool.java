@@ -26,15 +26,15 @@ public final class OpponentPool {
     public static Entity random() {
         if (defeatedOpponents.isEmpty())
             throw new IllegalStateException("No more opponents");
-        int i = RNG.nextInt(defeatedOpponents.size()); //generates a random number within the opponents
-        Entity e = defeatedOpponents.remove(i).get();//retrieves selected opponent
+        int i = RNG.nextInt(defeatedOpponents.size()); // generates a random number within the opponents
+        Entity e = defeatedOpponents.remove(i).get();// retrieves selected opponent
         System.out.println("[Pool] Spawned: " + e.getName());
         DifficultyApplier.applyTo(e); // applies multiplier to the newly spawned opponent
-        return e; //returns enemy as entity 
+        return e; // returns enemy as entity
     }
 
     public static void reset() {
-        defeatedOpponents.clear(); //empties list 
-        defeatedOpponents.addAll(OPPONENTS); //adds all opponents back to the list
+        defeatedOpponents.clear(); // empties list
+        defeatedOpponents.addAll(OPPONENTS); // adds all opponents back to the list
     }
 }

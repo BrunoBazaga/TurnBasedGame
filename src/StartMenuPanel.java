@@ -8,14 +8,14 @@ public class StartMenuPanel extends JPanel {
         backgroundImage = new ImageIcon("src/images/wallpaper.jpg").getImage();
 
         setLayout(new BorderLayout());
-        //setBackground(Color.GRAY);
+        // setBackground(Color.GRAY);
 
         JLabel title = new JLabel("Welcome", SwingConstants.CENTER);
         title.setFont(new Font("Arial", Font.BOLD, 30));
         title.setForeground(Color.WHITE);
         add(title, BorderLayout.NORTH);
 
-        //button panel
+        // button panel
         JPanel buttonPanel = new JPanel(new GridLayout(3, 1, 0, 20));
         buttonPanel.setBackground(Color.GRAY);
         buttonPanel.setBorder(BorderFactory.createEmptyBorder(40, 100, 40, 100));
@@ -46,7 +46,7 @@ public class StartMenuPanel extends JPanel {
         exit.setBorderPainted(false);
         exit.setFocusPainted(false);
 
-        //actions
+        // actions
         start.addActionListener(e -> {
             // starts new run of the game
             frame.startNewRun();

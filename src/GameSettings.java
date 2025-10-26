@@ -1,5 +1,5 @@
 public class GameSettings {
-    private static Difficulty difficulty = Difficulty.NORMAL;
+    private static Difficulty difficulty = Difficulty.NORMAL; // sets default difficulty to normal
 
     public static Difficulty getDifficulty() {
         return difficulty;

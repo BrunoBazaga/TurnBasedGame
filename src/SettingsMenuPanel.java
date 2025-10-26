@@ -26,7 +26,6 @@ public class SettingsMenuPanel extends JPanel {
         hard.setFont(font);
         back.setFont(font);
 
-        
         easy.addActionListener(e -> DifficultyApplier.setDifficulty(Difficulty.EASY));
         normal.addActionListener(e -> DifficultyApplier.setDifficulty(Difficulty.NORMAL));
         hard.addActionListener(e -> DifficultyApplier.setDifficulty(Difficulty.HARD));
