@@ -12,7 +12,7 @@ public class PowerAttack implements Ability {
     @Override
     public int execute(Entity attacker, Entity defender) {
 
-        int percent = 130 + rng.nextInt(61); // 130-190 inclusive
+        int percent = 140 + rng.nextInt(61); // 140-200 inclusive
 
         int base = attacker.getAttackPower() - defender.getDefencePower();
 
@@ -31,7 +31,7 @@ public class PowerAttack implements Ability {
         defender.setHealth(Math.max(0, defender.getHealth() - damage));
 
         // recoil between 5% and 15% of attacker max hp
-        double recoilPercent = 0.05 + rng.nextDouble() * 0.10; // 0.05 .. 0.15
+        double recoilPercent = 0.15 + rng.nextDouble() * 0.10; // 0.05 .. 0.15
         int recoil = (int) Math.max(1,
                 Math.round(attacker.getMaxHealth() * recoilPercent));
 
